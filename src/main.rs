@@ -27,7 +27,7 @@ fn generate(rng: &mut ThreadRng) -> Vec<Vec<u8>> {
 }
 
 fn check(rng: &mut ThreadRng, draws: Vec<Vec<u8>>) {
-    let mut matches: [u32; PICKS] = [0; PICKS];
+    let mut matches: [u32; PICKS+1] = [0; PICKS+1];
     
     // println!("Draws: {:?}", draws);
 
@@ -53,7 +53,7 @@ fn check(rng: &mut ThreadRng, draws: Vec<Vec<u8>>) {
 
     println!("Out of {} draws:\n", DRAWS);
     let mut match_sum: u32 = 0;
-    for i in 0..PICKS {
+    for i in 0..PICKS+1 {
         println!("Matched {}: {}", i, matches[i]);
         match_sum += matches[i];
     }
