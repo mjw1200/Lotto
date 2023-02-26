@@ -1,7 +1,7 @@
 use rand::{thread_rng, Rng, rngs::ThreadRng};
 
 const PICKS: usize = 5; // Numbers in one draw. MT Cash = 5
-const DRAWS: usize = 1000000; // Number of draws
+const DRAWS: usize = 100; // Number of draws
 
 fn main() {
     let mut rng = thread_rng();
@@ -65,6 +65,7 @@ fn check(rng: &mut ThreadRng, draws: Vec<Vec<u8>>) {
         }        
     }
 
+    println!("Out of {} draws:", DRAWS);
     println!("Matched two: {}", match_two);
     println!("Matched three: {}", match_three);
     println!("Matched four: {}", match_four);
