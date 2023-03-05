@@ -6,6 +6,7 @@ const PICKS: usize = 5; // Numbers in one draw. Montana Cash = 5
 const DRAWS: usize = 100; // Number of times you're playing
 
 fn main() {
+    println!("Dockerized Lotto, version 2.0");
     let mut rng = thread_rng();
     let draws = generate(&mut rng);
     check(&mut rng, draws);
