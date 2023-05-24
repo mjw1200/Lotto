@@ -11,10 +11,12 @@ After that you build, you tag, you push:
 -   docker build -t lotto .
 -   docker tag f9f186dfda mjwoptimizely/lotto:2.0
 -   docker push mjwoptimizely/lotto:2.0
--   docker tag f9f186dfda mjwoptimizely/lotto:latest
--   docker push mjwoptimizely/lotto:latest
 
 Where that third parameter to `docker tag` is an image ID.
+
+To update the "latest" tag, just tag and push again
+-   docker tag f9f186dfda mjwoptimizely/lotto:latest
+-   docker push mjwoptimizely/lotto:latest
 
 Then you can run it something like this:
 
