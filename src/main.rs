@@ -3,10 +3,10 @@ use std::fs::File;
 use std::io::prelude::*;
 
 const PICKS: usize = 5; // Numbers in one draw. Montana Cash = 5
-const DRAWS: usize = 1000000; // Number of times you're playing
+const DRAWS: usize = 100; // Number of times you're playing
 
 fn main() {
-    println!("Dockerized Lotto, version 3.0");
+    println!("Dockerized Lotto, version 3.1");
     let mut rng = thread_rng();
     let draws = generate(&mut rng);
     check(&mut rng, draws);
@@ -56,14 +56,13 @@ fn check(rng: &mut ThreadRng, draws: Vec<Vec<u8>>) {
     }
 
     println!("Out of {} draws:\n", DRAWS);
-    let mut _match_sum: u32 = 0;
+    let mut match_sum: u32 = 0;
     let mut value: u32;
     for i in 0..PICKS+1 {
         println!("Matched {}: {}", i, matches[i]);
-        _match_sum += matches[i];
+        match_sum += matches[i];
         
         value = get_value(i);
-        // println!("BLAM!! value is {}", value);
         if value == u32::MAX && matches[i] > 0 {
             win = u32::MAX;
             break;
@@ -80,7 +79,7 @@ fn check(rng: &mut ThreadRng, draws: Vec<Vec<u8>>) {
         println!("\nYou won a total of ${}", win);
     }
 
-    // assert_eq!(DRAWS as u32, match_sum);
+    assert_eq!(DRAWS as u32, match_sum);
 
     match file_output(winners, draws, win) {
         Err(e) => println!("{:?}", e),
