@@ -9,8 +9,10 @@ You have to log in to push to DockerHub:
 After that you build, you tag, you push:
 
 -   docker build -t lotto .
--   docker tag f9f186dfda6f0b8385841afd7dcf09e3b86264f6b52fcfc96ca331d90ad7861a mjwoptimizely/lotto:2.0
+-   docker tag f9f186dfda mjwoptimizely/lotto:2.0
 -   docker push mjwoptimizely/lotto:2.0
+-   docker tag f9f186dfda mjwoptimizely/lotto:latest
+-   docker push mjwoptimizely/lotto:latest
 
 Where that third parameter to `docker tag` is an image ID.
 
