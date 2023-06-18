@@ -6,6 +6,7 @@ const PICKS: usize = 5; // Numbers in one draw. Montana Cash = 5
 const DRAWS: usize = 100; // Number of times you're playing
 
 fn main() {
+    println!("Dockerized Lotto, version 3.1");
     let mut rng = thread_rng();
     let draws = generate(&mut rng);
     check(&mut rng, draws);
@@ -30,6 +31,7 @@ fn generate(rng: &mut ThreadRng) -> Vec<Vec<u8>> {
 
 fn check(rng: &mut ThreadRng, draws: Vec<Vec<u8>>) {
     let mut matches: [u32; PICKS+1] = [0; PICKS+1];
+    let mut win: u32 = 0;
     
     // println!("Draws: {:?}", draws);
 
@@ -55,20 +57,47 @@ fn check(rng: &mut ThreadRng, draws: Vec<Vec<u8>>) {
 
     println!("Out of {} draws:\n", DRAWS);
     let mut match_sum: u32 = 0;
+    let mut value: u32;
     for i in 0..PICKS+1 {
         println!("Matched {}: {}", i, matches[i]);
         match_sum += matches[i];
+        
+        value = get_value(i);
+        if value == u32::MAX && matches[i] > 0 {
+            win = u32::MAX;
+            break;
+        }
+        else {
+            win += matches[i] * value;
+        }
+    }
+
+    if win == u32::MAX {
+        println!("\nYou won it all, baby. 'grats")
+    }
+    else {
+        println!("\nYou won a total of ${}", win);
     }
 
     assert_eq!(DRAWS as u32, match_sum);
 
-    match file_output(winners, draws) {
+    match file_output(winners, draws, win) {
         Err(e) => println!("{:?}", e),
         _ => ()
     }
 }
 
-fn file_output(winners: [u8; PICKS], draws: Vec<Vec<u8>>) -> std::io::Result<()> {
+fn get_value(hits: usize) -> u32 {
+    return match hits {
+        0 | 1 => 0,
+        2 => 1,
+        3 => 5,
+        4 => 200,
+        _ => u32::MAX
+    }
+}
+
+fn file_output(winners: [u8; PICKS], draws: Vec<Vec<u8>>, win:u32) -> std::io::Result<()> {
     let mut file = File::create("audit_trail.txt")?;
     let mut output = String::new();
 
@@ -87,8 +116,11 @@ fn file_output(winners: [u8; PICKS], draws: Vec<Vec<u8>>) -> std::io::Result<()>
         }
         output += "\n";
     }
-    output += "\n";
+    output += "\n\n";
 
+    output += "You won a total of ";
+    output += &win.to_string();
+    
     file.write_all(output.as_bytes())?;
 
     Ok(())
