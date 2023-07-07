@@ -7,7 +7,7 @@ mod generator;
 mod checker;
 
 fn main() {
-    println!("Dockerized Lotto, version 3.2");
+    println!("Dockerized Lotto, version 3.3");
     let mut rng = thread_rng();
     
     let draws = generator::Generator::generate(&mut rng);
